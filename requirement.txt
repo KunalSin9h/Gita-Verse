@@ -1,0 +1,4 @@
+python-dotenv
+python-twitter-v2
+tinydb
+requests
