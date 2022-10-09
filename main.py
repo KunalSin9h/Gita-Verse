@@ -32,4 +32,4 @@ if __name__ == "__main__":
             current_id += 1
             next_hour = (next_hour + 1)%3
 
-    api.create_tweet(text="Jai Shri Krishna")
+    api.create_tweet(text="Jai Shri Krishna.")
