@@ -2,6 +2,7 @@ import pytwitter
 from os import environ as env
 from dotenv import load_dotenv
 from datetime import datetime
+from pytz import timezone
 
 from db import get_description
 
@@ -20,7 +21,7 @@ next_hour = 0
 
 if __name__ == "__main__":
     while True:
-        current_hour = int(datetime.now().hour)
+        current_hour = int(datetime.now(tz=timezone('Asia/Kolkata')).hour)
         if current_hour == hour_list[next_hour]:
             hero_text = get_description(current_id)
             len_hero = len(hero_text)
