@@ -1,12 +1,15 @@
 import pytwitter
 from os import environ as env
 from dotenv import load_dotenv
-from datetime import datetime
-from pytz import timezone
+import schedule
+import time
 
 from db import get_description
 
 load_dotenv()
+
+env['TZ'] = 'Asia/Kolkata'
+time.tzset()
 
 api = pytwitter.Api(
     consumer_key=env['API_KEY'],
@@ -15,21 +18,24 @@ api = pytwitter.Api(
     access_secret=env['ACCESS_SEC']
 )
 
-current_id = 1
-hour_list = [6, 13, 18]
-next_hour = 0
+current_verse_id = 1
+
+def tweet_verse():
+    global current_verse_id
+    hero_text = get_description(current_verse_id)
+    len_hero = len(hero_text)
+    if len_hero <= 280:
+        api.create_tweet(text=hero_text)
+    current_verse_id += 1
+
+schedule.every().day.at("06:00").do(tweet_verse)
+schedule.every().day.at("12:00").do(tweet_verse)
+schedule.every().day.at("18:00").do(tweet_verse)
 
 if __name__ == "__main__":
     while True:
-        current_hour = int(datetime.now(tz=timezone('Asia/Kolkata')).hour)
-        if current_hour == hour_list[next_hour]:
-            hero_text = get_description(current_id)
-            len_hero = len(hero_text)
-            if len_hero <= 280:
-                api.create_tweet(text=hero_text)
-            if current_id == 701:
-                break
-            current_id += 1
-            next_hour = (next_hour + 1)%3
-
-    api.create_tweet(text="Jai Shri Krishna.")
+        schedule.run_pending()
+        time.sleep(1)
+        if current_verse_id == 702:
+            api.create_tweet(text="Jai Shri Krishna.")
+            exit()
