@@ -28,7 +28,7 @@ def tweet_verse():
         api.create_tweet(text=hero_text)
     current_verse_id += 1
 
-schedule.every().day.at("6:00").do(tweet_verse)
+schedule.every().day.at("06:00").do(tweet_verse)
 schedule.every().day.at("12:00").do(tweet_verse)
 schedule.every().day.at("18:00").do(tweet_verse)
 
