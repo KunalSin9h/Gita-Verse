@@ -25,7 +25,28 @@ def tweet_verse():
     hero_text = get_description(current_verse_id)
     len_hero = len(hero_text)
     if len_hero <= 280:
-        api.create_tweet(text=hero_text)
+        try:
+            api.create_tweet(text=hero_text)
+        except ConnectionError:
+            print(f"on verse: {current_verse_id} ConnectionError Accured, Tweeting again...")
+            try:
+                api.create_tweet(text=hero_text)
+            except:
+                print("Fail again!(1)")
+            else:
+                print(f"Tweet Send on second try for verse {current_verse_id}(1)")
+        except:
+            print(f"on verse: {current_verse_id} at  create_tweet something went wrong, Retrying again...")
+            try:
+                api.create_tweet(text=hero_text)
+            except:
+                print("Fail again!(2)")
+            else:
+                print(f"Tweet Send on second try for verse {current_verse_id}(2)")
+        else:
+            print(f"Tweet Send for verse {current_verse_id}")
+    else:
+        print("Skip tweet due to long text")
     current_verse_id += 1
 
 schedule.every().day.at("06:00").do(tweet_verse)
@@ -36,6 +57,3 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         time.sleep(1)
-        if current_verse_id == 702:
-            api.create_tweet(text="Jai Shri Krishna.")
-            exit()
