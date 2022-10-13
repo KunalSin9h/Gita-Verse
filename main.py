@@ -27,26 +27,18 @@ def tweet_verse():
     if len_hero <= 280:
         try:
             api.create_tweet(text=hero_text)
-        except ConnectionError:
-            print(f"on verse: {current_verse_id} ConnectionError Accured, Tweeting again...")
-            try:
-                api.create_tweet(text=hero_text)
-            except:
-                print("Fail again!(1)")
-            else:
-                print(f"Tweet Send on second try for verse {current_verse_id}(1)")
         except:
-            print(f"on verse: {current_verse_id} at  create_tweet something went wrong, Retrying again...")
+            print(f"on verse: {current_verse_id} at  create_tweet something went wrong, Retrying again...   -    {time.strftime('%X %x %Z')}")
             try:
                 api.create_tweet(text=hero_text)
             except:
-                print("Fail again!(2)")
+                print(f"Fail again!  - {time.strftime('%X %x %Z')}")
             else:
-                print(f"Tweet Send on second try for verse {current_verse_id}(2)")
+                print(f"Tweet Send on second try for verse {current_verse_id}   -    {time.strftime('%X %x %Z')}")
         else:
-            print(f"Tweet Send for verse {current_verse_id}")
+            print(f"Tweet Send for verse {current_verse_id}   -   {time.strftime('%X %x %Z')}")
     else:
-        print("Skip tweet due to long text")
+        print(f"Skip tweet due to long text   -    {time.strftime('%X %x %Z')}")
     current_verse_id += 1
 
 schedule.every().day.at("06:00").do(tweet_verse)
