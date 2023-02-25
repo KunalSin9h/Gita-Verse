@@ -5,6 +5,7 @@ import schedule
 import time
 
 from db import get_description
+from logs import log
 
 load_dotenv()
 
@@ -28,17 +29,17 @@ def tweet_verse():
         try:
             api.create_tweet(text=hero_text)
         except:
-            print(f"on verse: {current_verse_id} at  create_tweet something went wrong, Retrying again...   -    {time.strftime('%X %x %Z')}")
+            log(f"on verse: {current_verse_id} at  create_tweet something went wrong, Retrying again...   -    {time.strftime('%X %x %Z')}")
             try:
                 api.create_tweet(text=hero_text)
             except:
-                print(f"Fail again!  - {time.strftime('%X %x %Z')}")
+                log(f"Fail again!  - {time.strftime('%X %x %Z')}")
             else:
-                print(f"Tweet Send on second try for verse {current_verse_id}   -    {time.strftime('%X %x %Z')}")
+                log(f"Tweet Send on second try for verse {current_verse_id}   -    {time.strftime('%X %x %Z')}")
         else:
-            print(f"Tweet Send for verse {current_verse_id}   -   {time.strftime('%X %x %Z')}")
+            log(f"Tweet Send for verse {current_verse_id}   -   {time.strftime('%X %x %Z')}")
     else:
-        print(f"Skip tweet due to long text   -    {time.strftime('%X %x %Z')}")
+        log(f"Skip tweet due to long text   -    {time.strftime('%X %x %Z')}")
     current_verse_id += 1
 
 schedule.every().day.at("06:00").do(tweet_verse)
@@ -46,7 +47,7 @@ schedule.every().day.at("12:00").do(tweet_verse)
 schedule.every().day.at("18:00").do(tweet_verse)
 
 if __name__ == "__main__":
-    print("App Started")
+    log("App Started")
     while True:
         schedule.run_pending()
         time.sleep(1)
