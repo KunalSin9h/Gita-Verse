@@ -1,0 +1,22 @@
+  name: Gita Verse Bot CI
+
+  on:
+    push:
+      branches: [master]
+    pull_request:
+      branches: [master]
+
+  jobs:
+
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - name: Build 
+          run: |
+            docker build -t ghcr.io/kunalsin9h/gita-verse-container:latest .
+        - name: Push
+          if: github.ref == 'refs/heads/master'
+          run: |
+            echo "${{ secrets.GHCR }}" | docker login ghcr.io -u "kunalsin9h" --password-stdin
+            docker push ghcr.io/kunalsin9h/gita-verse-container:latest
