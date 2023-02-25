@@ -18,7 +18,7 @@ api = pytwitter.Api(
     access_secret=env['ACCESS_SEC']
 )
 
-current_verse_id = 1
+current_verse_id = int(env["TWEET_NUMBER"])
 
 def tweet_verse():
     global current_verse_id
@@ -46,6 +46,7 @@ schedule.every().day.at("12:00").do(tweet_verse)
 schedule.every().day.at("18:00").do(tweet_verse)
 
 if __name__ == "__main__":
+    print("App Started")
     while True:
         schedule.run_pending()
         time.sleep(1)
