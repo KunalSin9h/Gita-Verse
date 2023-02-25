@@ -29,13 +29,15 @@ def tweet_verse():
         try:
             api.create_tweet(text=hero_text)
         except:
-            log(f"on verse: {current_verse_id} at  create_tweet something went wrong, Retrying again...   -    {time.strftime('%X %x %Z')}")
+            log(f"on verse: {current_verse_id} at  create_tweet "  \
+            "something went wrong, Retrying again...   -    {time.strftime('%X %x %Z')}")
             try:
                 api.create_tweet(text=hero_text)
             except:
                 log(f"Fail again!  - {time.strftime('%X %x %Z')}")
             else:
-                log(f"Tweet Send on second try for verse {current_verse_id}   -    {time.strftime('%X %x %Z')}")
+                log(f"Tweet Send on" \
+                "second try for verse {current_verse_id}   -    {time.strftime('%X %x %Z')}")
         else:
             log(f"Tweet Send for verse {current_verse_id}   -   {time.strftime('%X %x %Z')}")
     else:
