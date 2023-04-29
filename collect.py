@@ -8,15 +8,15 @@ geeta = [47, 72, 43, 42, 29, 47, 30, 28, 34, 42, 55, 20, 35, 27, 20, 24, 28, 78]
 id_cnt = 1
 
 for chapter in range(0, 18):
-  chapter_num = chapter + 1
-  verse_cnt = geeta[chapter]
+    chapter_num = chapter + 1
+    verse_cnt = geeta[chapter]
 
-  for verse in range(1, verse_cnt + 1):
-    translations = get_translations(chapter_num, verse)
-    for x in translations:
-      if x["language"] == "english" and x["author_name"] == "Swami Adidevananda":
-        id = id_cnt
-        desc = normal(x["description"])
-        author = x["author_name"]
-        db.insert(id, chapter_num, verse, desc, author)
-        id_cnt += 1
+    for verse in range(1, verse_cnt + 1):
+        translations = get_translations(chapter_num, verse)
+        for x in translations:
+            if x["language"] == "english" and x["author_name"] == "Swami Adidevananda":
+                id = id_cnt
+                desc = normal(x["description"])
+                author = x["author_name"]
+                db.insert(id, chapter_num, verse, desc, author)
+                id_cnt += 1
